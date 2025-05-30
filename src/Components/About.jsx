@@ -1,6 +1,10 @@
 import React from 'react';
 import './About.css';
 import { motion } from 'framer-motion';
+import LuxuryHotel from "../Images/Luxury Hotel.jpeg";
+import HeadChef from "../Images/chef.webp";
+import GeneralManager from "../Images/Hotel Manager.webp";
+import ChiefConcierge from "../Images/Chief Concierge.webp";
 
 const About = () => {
   return (
@@ -22,7 +26,7 @@ const About = () => {
           transition={{ duration: 0.8 }}
           className="about-image"
         >
-          <img src="./hotel-building.jpg" alt="Luxury Hotel" />
+          <img src={LuxuryHotel } alt="Luxury Hotel" />
         </motion.div>
 
         <motion.div 
@@ -70,7 +74,7 @@ const About = () => {
             whileHover={{ y: -10 }}
             className="team-member"
           >
-            <img src="./manager.jpg" alt="Hotel Manager" />
+            <img src={GeneralManager} alt="Hotel Manager" />
             <h3>Sarah Johnson</h3>
             <p>General Manager</p>
           </motion.div>
@@ -78,7 +82,7 @@ const About = () => {
             whileHover={{ y: -10 }}
             className="team-member"
           >
-            <img src="./chef.jpg" alt="Head Chef" />
+            <img src={HeadChef} alt="Head Chef" />
             <h3>Michael Chen</h3>
             <p>Head Chef</p>
           </motion.div>
@@ -86,7 +90,7 @@ const About = () => {
             whileHover={{ y: -10 }}
             className="team-member"
           >
-            <img src="./concierge.jpg" alt="Chief Concierge" />
+            <img src={ChiefConcierge} alt="Chief Concierge" />
             <h3>David Wilson</h3>
             <p>Chief Concierge</p>
           </motion.div>

@@ -1,107 +1,248 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaChevronLeft, FaChevronRight, FaStar, FaWifi, FaSnowflake, FaTv, FaCoffee, FaWineGlassAlt, FaBath, FaConciergeBell } from 'react-icons/fa';
 import './Rooms.css';
-import { motion } from 'framer-motion';
-import standardroom from "../Images/standardroom.webp"
-import DeluxeRoom from "../Images/Deluxe Room.jpeg"
-import Suite from "../Images/Suite.webp"
+import standardroom from "../Images/standardroom.webp";
+import standardroom1 from "../Images/standardroom1.webp";
+import standardroom2 from "../Images/standardroom2.webp";
+import DeluxeRoom from "../Images/Deluxe Room.jpeg";
+import DeluxeRoom2 from "../Images/Deluxe Room2.jpeg";
+import DeluxeRoom3 from "../Images/DeluxeRoom3.webp";
+import Suite from "../Images/Suite.webp";
+import Suite2 from "../Images/Suite3.webp";
+import Suite3 from "../Images/Suite2.webp";
+
 
 const Rooms = () => {
-  const [rooms, setRooms] = useState([
+  const rooms = [
     {
       id: 1,
       name: "Standard Room",
-      description: "Comfortable 25 m² room with all basic amenities",
+      description: "Our standard rooms offer comfort and functionality with 25m² of carefully designed space. Perfect for business travelers and couples.",
       price: "$120/night",
-      image: "standardroom",
-      features: ["Free WiFi", "Air Conditioning", "TV", "Coffee Maker"]
+      images: [standardroom, standardroom1, standardroom2],
+      features: [
+        { icon: <FaWifi />, text: "Free High-Speed WiFi" },
+        { icon: <FaSnowflake />, text: "Air Conditioning" },
+        { icon: <FaTv />, text: "40\" Smart TV" },
+        { icon: <FaCoffee />, text: "Coffee Maker" }
+      ],
+      amenities: ["Work desk", "Hairdryer", "Safe", "Iron", "Daily housekeeping"],
+      size: "25 m²",
+      view: "City View"
     },
     {
       id: 2,
-      name:"DeluxeRoom",
-      description: "Luxurious 35 m² room with great view and premium services",
+      name: "Deluxe Room",
+      description: "Experience luxury in our 35m² deluxe rooms featuring premium amenities and breathtaking views. Ideal for those seeking extra comfort.",
       price: "$220/night",
-      image: "./deluxe-room.jpg",
-      features: ["Free WiFi", "Air Conditioning", "Minibar", "King Bed", "Bathrobe"]
+      images: [DeluxeRoom, DeluxeRoom2, DeluxeRoom3],
+      features: [
+        { icon: <FaWifi />, text: "Free Premium WiFi" },
+        { icon: <FaWineGlassAlt />, text: "Minibar" },
+        { icon: <FaBath />, text: "Premium Bath Amenities" },
+        { icon: <FaConciergeBell />, text: "24/7 Room Service" }
+      ],
+      amenities: ["King Size Bed", "Bathrobe", "Slippers", "Nespresso Machine", "Evening turndown service"],
+      size: "35 m²",
+      view: "Partial Sea View"
     },
     {
       id: 3,
       name: "Executive Suite",
-      description: "Elegant 50 m² suite with living area and VIP services",
+      description: "Our 50m² suites offer separate living areas and VIP services. The ultimate choice for discerning travelers seeking space and luxury.",
       price: "$350/night",
-      image: "Suite",
-      features: ["Free WiFi", "Air Conditioning", "Minibar", "Separate Living Area", "Jacuzzi"]
+      images: [Suite, Suite2, Suite3],
+      features: [
+        { icon: <FaStar />, text: "VIP Check-in" },
+        { icon: <FaConciergeBell />, text: "Personal Concierge" },
+        { icon: <FaBath />, text: "Jacuzzi Bath" },
+        { icon: <FaWineGlassAlt />, text: "Welcome Champagne" }
+      ],
+      amenities: ["Separate Living Room", "Dining Area", "Premium Toiletries", "Express Laundry", "Private Check-out"],
+      size: "50 m²",
+      view: "Panoramic Sea View"
     }
-  ]);
+  ];
 
   const [selectedRoom, setSelectedRoom] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const nextImage = () => {
+    setCurrentImageIndex(prev => 
+      prev === selectedRoom.images.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex(prev => 
+      prev === 0 ? selectedRoom.images.length - 1 : prev - 1
+    );
+  };
+
+  const selectRoom = (room) => {
+    setSelectedRoom(room);
+    setCurrentImageIndex(0);
+  };
 
   return (
     <div className="rooms-page">
+      {/* Hero Section */}
       <motion.div 
+        className="rooms-hero"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="rooms-header"
       >
-        <h1>Our Rooms & Suites</h1>
-        <p>Experience unparalleled luxury in our carefully designed accommodations</p>
+        <div className="hero-overlay"></div>
+        <motion.div 
+          className="hero-content"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+        >
+          <h1>Our Rooms & Suites</h1>
+          <p>Experience unparalleled luxury in our carefully designed accommodations</p>
+        </motion.div>
       </motion.div>
 
-      <div className="rooms-container">
+      {/* Room Showcase */}
+      <div className="rooms-showcase">
         {rooms.map((room, index) => (
           <motion.div
             key={room.id}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.2 }}
             className="room-card"
-            onClick={() => setSelectedRoom(room)}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.2 }}
+            viewport={{ once: true }}
           >
-            <div className="room-image-container">
-              <img src={room.image} alt={room.name} />
-              <div className="room-price">{room.price}</div>
+            <div className="room-slideshow">
+              <img 
+                src={room.images[0]} 
+                alt={room.name} 
+                onClick={() => selectRoom(room)}
+              />
+              <div className="room-badge">{room.price}</div>
             </div>
             <div className="room-info">
               <h3>{room.name}</h3>
               <p>{room.description}</p>
-              <button className="view-details-btn">View Details</button>
+              <div className="room-highlights">
+                {room.features.map((feature, i) => (
+                  <div key={i} className="highlight">
+                    <span className="icon">{feature.icon}</span>
+                    <span>{feature.text}</span>
+                  </div>
+                ))}
+              </div>
+              <button 
+                className="view-details-btn"
+                onClick={() => selectRoom(room)}
+              >
+                View Details
+              </button>
             </div>
           </motion.div>
         ))}
       </div>
 
-      {selectedRoom && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="room-modal"
-          onClick={() => setSelectedRoom(null)}
-        >
+      {/* Room Modal */}
+      <AnimatePresence>
+        {selectedRoom && (
           <motion.div 
-            className="modal-content"
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
-            onClick={e => e.stopPropagation()}
+            className="room-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedRoom(null)}
           >
-            <button className="close-modal" onClick={() => setSelectedRoom(null)}>×</button>
-            <img src={selectedRoom.image} alt={selectedRoom.name} />
-            <div className="modal-info">
-              <h2>{selectedRoom.name}</h2>
-              <p className="price">{selectedRoom.price}</p>
-              <p>{selectedRoom.description}</p>
-              <div className="features">
-                <h4>Features:</h4>
-                <ul>
-                  {selectedRoom.features.map((feature, i) => (
-                    <li key={i}>{feature}</li>
+            <motion.div 
+              className="modal-content"
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              onClick={e => e.stopPropagation()}
+            >
+              <button 
+                className="close-modal"
+                onClick={() => setSelectedRoom(null)}
+              >
+                &times;
+              </button>
+              
+              <div className="modal-gallery">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={currentImageIndex}
+                    src={selectedRoom.images[currentImageIndex]}
+                    alt={selectedRoom.name}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                </AnimatePresence>
+                <button className="gallery-nav prev" onClick={prevImage}>
+                  <FaChevronLeft />
+                </button>
+                <button className="gallery-nav next" onClick={nextImage}>
+                  <FaChevronRight />
+                </button>
+                <div className="gallery-dots">
+                  {selectedRoom.images.map((_, index) => (
+                    <button
+                      key={index}
+                      className={`dot ${index === currentImageIndex ? 'active' : ''}`}
+                      onClick={() => setCurrentImageIndex(index)}
+                    />
                   ))}
-                </ul>
+                </div>
               </div>
-              <button className="book-now-btn">Book Now</button>
-            </div>
+
+              <div className="modal-info">
+                <h2>{selectedRoom.name}</h2>
+                <p className="price">{selectedRoom.price}</p>
+                <p className="description">{selectedRoom.description}</p>
+                
+                <div className="room-specs">
+                  <div>
+                    <span>Size</span>
+                    <strong>{selectedRoom.size}</strong>
+                  </div>
+                  <div>
+                    <span>View</span>
+                    <strong>{selectedRoom.view}</strong>
+                  </div>
+                </div>
+
+                <div className="features-section">
+                  <h4>Key Features</h4>
+                  <div className="features-grid">
+                    {selectedRoom.features.map((feature, i) => (
+                      <div key={i} className="feature">
+                        <div className="feature-icon">{feature.icon}</div>
+                        <span>{feature.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="amenities-section">
+                  <h4>Amenities</h4>
+                  <ul>
+                    {selectedRoom.amenities.map((amenity, i) => (
+                      <li key={i}>{amenity}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <button className="book-now-btn">Book Now</button>
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
+        )}
+      </AnimatePresence>
     </div>
   );
 };

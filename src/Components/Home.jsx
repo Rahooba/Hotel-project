@@ -4,7 +4,8 @@ import './Home.css';
 import standardroom from "../Images/standardroom.webp";
 import DeluxeRoom from "../Images/Deluxe Room.jpeg";
 import Suite from "../Images/Suite.webp";
-
+import { FaUtensils, FaSpa, FaSwimmingPool, FaDumbbell } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 const Home = () => {
   // Animation variants
   const containerVariants = {
@@ -154,12 +155,12 @@ const Home = () => {
         <div className="rooms-grid">
           {[
             { img: standardroom, title: "Standard Room", desc: "Comfortable 25 m² room with all basic amenities" },
-            { img: DeluxeRoom, title: "Deluxe Room", desc: "Luxurious 35 m² room with great view and premium services" },
-            { img: Suite, title: "Suite", desc: "Elegant 50 m² suite with living area and VIP services" }
+            { img: DeluxeRoom, title: "Deluxe Room", desc: "Luxurious 35 m² room with great view " },
+            { img: Suite, title: "Suite", desc: "Elegant 50 m² suite with living area and VIP " }
           ].map((room, index) => (
             <motion.div
               key={index}
-              className="room-card"
+              className="room-cardd"
               initial={{ y: 50, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ delay: index * 0.2 }}
@@ -188,52 +189,68 @@ const Home = () => {
       </motion.section>
 
       {/* Services Section */}
-      <motion.section 
-        className="services-section"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
+<motion.section 
+  className="services-section"
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  transition={{ duration: 0.8 }}
+  viewport={{ once: true }}
+>
+  <motion.h2
+    initial={{ y: -20, opacity: 0 }}
+    whileInView={{ y: 0, opacity: 1 }}
+    transition={{ delay: 0.2 }}
+    viewport={{ once: true }}
+  >
+    Our Services
+  </motion.h2>
+  <motion.div 
+    className="services-grid"
+    variants={containerVariants}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+  >
+    {[
+      { 
+        icon: <FaUtensils size={40} />, 
+        title: "Fine Dining", 
+        desc: "Wide selection of international and local cuisine" 
+      },
+      { 
+        icon: <FaSpa size={40} />, 
+        title: "Spa & Massage", 
+        desc: "Relaxation and beauty treatments to highest standards" 
+      },
+      { 
+        icon: <FaSwimmingPool size={40} />, 
+        title: "Swimming Pool", 
+        desc: "Indoor and outdoor pools with relaxation area" 
+      },
+      { 
+        icon: <FaDumbbell size={40} />, 
+        title: "Fitness Center", 
+        desc: "Modern equipment with professional trainers" 
+      }
+    ].map((service, index) => (
+      <motion.div
+        key={index}
+        className="service-card"
+        variants={itemVariants}
+        whileHover={{ 
+          y: -10,
+          boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)"
+        }}
       >
-        <motion.h2
-          initial={{ y: -20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          viewport={{ once: true }}
-        >
-          Our Services
-        </motion.h2>
-        <motion.div 
-          className="services-grid"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {[
-            { icon: "icon-restaurant", title: "Fine Dining", desc: "Wide selection of international and local cuisine" },
-            { icon: "icon-spa", title: "Spa & Massage", desc: "Relaxation and beauty treatments to highest standards" },
-            { icon: "icon-pool", title: "Swimming Pool", desc: "Indoor and outdoor pools with relaxation area" },
-            { icon: "icon-gym", title: "Fitness Center", desc: "Modern equipment with professional trainers" }
-          ].map((service, index) => (
-            <motion.div
-              key={index}
-              className="service-card"
-              variants={itemVariants}
-              whileHover={{ 
-                y: -10,
-                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)"
-              }}
-            >
-              <div className="service-icon">
-                <i className={service.icon}></i>
-              </div>
-              <h3>{service.title}</h3>
-              <p>{service.desc}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.section>
+        <div className="service-icon">
+          {service.icon} {/* Render the icon component directly */}
+        </div>
+        <h3>{service.title}</h3>
+        <p>{service.desc}</p>
+      </motion.div>
+    ))}
+  </motion.div>
+</motion.section>
 
       {/* Footer */}
       <motion.footer 
@@ -263,9 +280,9 @@ const Home = () => {
           >
             <h3>Quick Links</h3>
             <ul>
-              <li><a href="#home">Home</a></li>
-              <li><a href="#rooms">Rooms</a></li>
-              <li><a href="#services">Services</a></li>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/rooms">Rooms</Link></li>
+              <li><Link to="/services">Services</Link></li>
             </ul>
           </motion.div>
           <motion.div 
