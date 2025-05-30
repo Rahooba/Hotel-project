@@ -1,11 +1,12 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './Home.css';
 import standardroom from "../Images/standardroom.webp";
 import DeluxeRoom from "../Images/Deluxe Room.jpeg";
 import Suite from "../Images/Suite.webp";
 import { FaUtensils, FaSpa, FaSwimmingPool, FaDumbbell } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+
 const Home = () => {
   // Animation variants
   const containerVariants = {
@@ -38,6 +39,76 @@ const Home = () => {
     scale: 0.98
   };
 
+  // Room data with capacity information
+  const roomTypes = [
+    { 
+      img: standardroom, 
+      title: "Standard Room", 
+      desc: "Comfortable 25 m² room with all basic amenities",
+      capacity: 1,
+      type: "single",
+      price: "$120/night"
+    },
+    { 
+      img: DeluxeRoom, 
+      title: "Deluxe Room", 
+      desc: "Luxurious 35 m² room with great view",
+      capacity: 2,
+      type: "double",
+      price: "$220/night"
+    },
+    { 
+      img: Suite, 
+      title: "Suite", 
+      desc: "Elegant 50 m² suite with living area and VIP services",
+      capacity: 4,
+      type: "suite",
+      price: "$350/night"
+    }
+  ];
+
+  // Search form state
+  const [searchParams, setSearchParams] = useState({
+    checkIn: '',
+    checkOut: '',
+    guests: '1'
+  });
+
+  // Filtered rooms state
+  const [filteredRooms, setFilteredRooms] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSearchParams(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle form submission
+  const handleSearch = (e) => {
+    e.preventDefault();
+    
+    // Filter rooms based on guest count
+    let filtered = [];
+    const guestCount = parseInt(searchParams.guests);
+    
+    if (guestCount === 1) {
+      filtered = roomTypes.filter(room => room.capacity === 1);
+    } else if (guestCount === 2) {
+      filtered = roomTypes.filter(room => room.capacity === 2);
+    } else if (guestCount === 3) {
+      filtered = roomTypes.filter(room => room.capacity === 3);
+    } else if (guestCount >= 4) {
+      filtered = roomTypes.filter(room => room.capacity >= 4);
+    }
+    
+    setFilteredRooms(filtered);
+    setShowResults(true);
+  };
+
   return (
     <div className="hotel-homepage">
       {/* Hero Section */}
@@ -67,16 +138,18 @@ const Home = () => {
           >
             Luxury Hotel provides unforgettable stays with premium services and care
           </motion.p>
-          <motion.button 
-            className="cta-button"
-            whileHover={{ scale: 1.05, boxShadow: "0 5px 15px rgba(231, 76, 60, 0.4)" }}
-            whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
-          >
-            Explore Rooms
-          </motion.button>
+          <Link to="/rooms">
+            <motion.button 
+              className="cta-button"
+              whileHover={{ scale: 1.05, boxShadow: "0 5px 15px rgba(231, 76, 60, 0.4)" }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9 }}
+            >
+              Explore Rooms
+            </motion.button>
+          </Link>
         </motion.div>
       </motion.header>
 
@@ -99,30 +172,58 @@ const Home = () => {
           </motion.h2>
           <motion.form 
             className="search-form"
+            onSubmit={handleSearch}
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            {['Check-in Date', 'Check-out Date', 'Guests'].map((label, index) => (
-              <motion.div 
-                key={index}
-                className="form-group"
-                variants={itemVariants}
+            <motion.div 
+              key="checkin"
+              className="form-group"
+              variants={itemVariants}
+            >
+              <label>Check-in Date</label>
+              <input 
+                type="date" 
+                name="checkIn"
+                value={searchParams.checkIn}
+                onChange={handleInputChange}
+                required 
+              />
+            </motion.div>
+            <motion.div 
+              key="checkout"
+              className="form-group"
+              variants={itemVariants}
+            >
+              <label>Check-out Date</label>
+              <input 
+                type="date" 
+                name="checkOut"
+                value={searchParams.checkOut}
+                onChange={handleInputChange}
+                required 
+              />
+            </motion.div>
+            <motion.div 
+              key="guests"
+              className="form-group"
+              variants={itemVariants}
+            >
+              <label>Guests</label>
+              <select
+                name="guests"
+                value={searchParams.guests}
+                onChange={handleInputChange}
+                required
               >
-                <label>{label}</label>
-                {index === 2 ? (
-                  <select>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4+</option>
-                  </select>
-                ) : (
-                  <input type="date" />
-                )}
-              </motion.div>
-            ))}
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4+</option>
+              </select>
+            </motion.div>
             <motion.button 
               type="submit" 
               className="search-btn"
@@ -136,9 +237,122 @@ const Home = () => {
         </div>
       </motion.section>
 
-      {/* Room Types Section */}
+      {/* Search Results Section */}
+      <AnimatePresence>
+        {showResults && (
+          <motion.section 
+            className="search-results"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="results-container">
+              <h3>Available Rooms for {searchParams.guests} Guest{searchParams.guests !== "1" ? "s" : ""}</h3>
+              
+              {filteredRooms.length > 0 ? (
+                <div className="rooms-grid">
+                  {filteredRooms.map((room, index) => (
+                    <motion.div
+                      key={index}
+                      className="room-cardd"
+                      initial={{ y: 50, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={hoverEffect}
+                      whileTap={tapEffect}
+                    >
+                      <div className="room-image-container">
+                        <img src={room.img} alt={room.title} />
+                        <div className="room-price">{room.price}</div>
+                      </div>
+                      <div className="room-info">
+                        <h3>{room.title}</h3>
+                        <p>{room.desc}</p>
+                        <p className="room-capacity">Capacity: {room.capacity} guest{room.capacity !== 1 ? "s" : ""}</p>
+                        <motion.button 
+                          className="room-btn"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          Book Now
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <div className="no-rooms">
+                  <p>No rooms available for the selected criteria.</p>
+                  <button 
+                    className="room-btn"
+                    onClick={() => setShowResults(false)}
+                  >
+                    Show All Rooms
+                  </button>
+                </div>
+              )}
+            </div>
+          </motion.section>
+        )}
+      </AnimatePresence>
+
+      {/* Regular Room Types Section */}
+      <AnimatePresence>
+        {!showResults && (
+          <motion.section 
+            className="room-types"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <motion.h2
+              initial={{ y: -20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              Our Room Types
+            </motion.h2>
+            <div className="rooms-grid">
+              {roomTypes.map((room, index) => (
+                <motion.div
+                  key={index}
+                  className="room-cardd"
+                  initial={{ y: 50, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{ delay: index * 0.2 }}
+                  viewport={{ once: true }}
+                  whileHover={hoverEffect}
+                  whileTap={tapEffect}
+                >
+                  <div className="room-image-container">
+                    <img src={room.img} alt={room.title} />
+                    <div className="room-price">{room.price}</div>
+                  </div>
+                  <div className="room-info">
+                    <h3>{room.title}</h3>
+                    <p>{room.desc}</p>
+                    <motion.button 
+                      className="room-btn"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Book Now
+                    </motion.button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+      </AnimatePresence>
+
+      {/* Services Section */}
       <motion.section 
-        className="room-types"
+        className="services-section"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
@@ -150,107 +364,55 @@ const Home = () => {
           transition={{ delay: 0.2 }}
           viewport={{ once: true }}
         >
-          Our Room Types
+          Our Services
         </motion.h2>
-        <div className="rooms-grid">
+        <motion.div 
+          className="services-grid"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {[
-            { img: standardroom, title: "Standard Room", desc: "Comfortable 25 m² room with all basic amenities" },
-            { img: DeluxeRoom, title: "Deluxe Room", desc: "Luxurious 35 m² room with great view " },
-            { img: Suite, title: "Suite", desc: "Elegant 50 m² suite with living area and VIP " }
-          ].map((room, index) => (
+            { 
+              icon: <FaUtensils size={40} />, 
+              title: "Fine Dining", 
+              desc: "Wide selection of international and local cuisine" 
+            },
+            { 
+              icon: <FaSpa size={40} />, 
+              title: "Spa & Massage", 
+              desc: "Relaxation and beauty treatments to highest standards" 
+            },
+            { 
+              icon: <FaSwimmingPool size={40} />, 
+              title: "Swimming Pool", 
+              desc: "Indoor and outdoor pools with relaxation area" 
+            },
+            { 
+              icon: <FaDumbbell size={40} />, 
+              title: "Fitness Center", 
+              desc: "Modern equipment with professional trainers" 
+            }
+          ].map((service, index) => (
             <motion.div
               key={index}
-              className="room-cardd"
-              initial={{ y: 50, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ delay: index * 0.2 }}
-              viewport={{ once: true }}
-              whileHover={hoverEffect}
-              whileTap={tapEffect}
+              className="service-card"
+              variants={itemVariants}
+              whileHover={{ 
+                y: -10,
+                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)"
+              }}
             >
-              <div className="room-image-container">
-                <img src={room.img} alt={room.title} />
-                <div className="room-overlay"></div>
+              <div className="service-icon">
+                {service.icon}
               </div>
-              <div className="room-info">
-                <h3>{room.title}</h3>
-                <p>{room.desc}</p>
-                <motion.button 
-                  className="room-btn"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Book Now
-                </motion.button>
-              </div>
+              <h3>{service.title}</h3>
+              <p>{service.desc}</p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </motion.section>
-
-      {/* Services Section */}
-<motion.section 
-  className="services-section"
-  initial={{ opacity: 0 }}
-  whileInView={{ opacity: 1 }}
-  transition={{ duration: 0.8 }}
-  viewport={{ once: true }}
->
-  <motion.h2
-    initial={{ y: -20, opacity: 0 }}
-    whileInView={{ y: 0, opacity: 1 }}
-    transition={{ delay: 0.2 }}
-    viewport={{ once: true }}
-  >
-    Our Services
-  </motion.h2>
-  <motion.div 
-    className="services-grid"
-    variants={containerVariants}
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true }}
-  >
-    {[
-      { 
-        icon: <FaUtensils size={40} />, 
-        title: "Fine Dining", 
-        desc: "Wide selection of international and local cuisine" 
-      },
-      { 
-        icon: <FaSpa size={40} />, 
-        title: "Spa & Massage", 
-        desc: "Relaxation and beauty treatments to highest standards" 
-      },
-      { 
-        icon: <FaSwimmingPool size={40} />, 
-        title: "Swimming Pool", 
-        desc: "Indoor and outdoor pools with relaxation area" 
-      },
-      { 
-        icon: <FaDumbbell size={40} />, 
-        title: "Fitness Center", 
-        desc: "Modern equipment with professional trainers" 
-      }
-    ].map((service, index) => (
-      <motion.div
-        key={index}
-        className="service-card"
-        variants={itemVariants}
-        whileHover={{ 
-          y: -10,
-          boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)"
-        }}
-      >
-        <div className="service-icon">
-          {service.icon} {/* Render the icon component directly */}
-        </div>
-        <h3>{service.title}</h3>
-        <p>{service.desc}</p>
-      </motion.div>
-    ))}
-  </motion.div>
-</motion.section>
 
       {/* Footer */}
       <motion.footer 
