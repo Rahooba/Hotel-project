@@ -71,7 +71,7 @@ useEffect(() => {
       title: roomData.title || roomData.name,
       img: roomData.img || roomData.images[0],
       price: roomData.price,
-      capacity: roomData.capacity || parseInt(roomData.size.match(/\d+/)[0]),
+      capacity: roomData.capacity ,
       desc: roomData.desc || roomData.description,
       type: roomData.type || 
            (roomData.name?.toLowerCase().includes('suite') ? 'suite' : 

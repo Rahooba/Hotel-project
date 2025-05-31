@@ -21,7 +21,7 @@ const Rooms = () => {
       title: room.name,
       img: room.images[0],
       price: room.price,
-      capacity: parseInt(room.size.match(/\d+/)[0]), // Extract number from size
+      capacity: room.capacity, // Extract number from size
       desc: room.description,
       type: room.name.toLowerCase().includes('suite') ? 'suite' : 
             room.name.toLowerCase().includes('deluxe') ? 'deluxe' : 'standard'
@@ -30,55 +30,58 @@ const Rooms = () => {
     navigate('/booking', { state: { room: bookingRoom } });
   };
   const rooms = [
-    {
-      id: 1,
-      name: "Standard Room",
-      description: "Our standard rooms offer comfort and functionality with 25m² of carefully designed space. Perfect for business travelers and couples.",
-      price: "$120/night",
-      images: [standardroom, standardroom1, standardroom2],
-      features: [
-        { icon: <FaWifi />, text: "Free High-Speed WiFi" },
-        { icon: <FaSnowflake />, text: "Air Conditioning" },
-        { icon: <FaTv />, text: "40\" Smart TV" },
-        { icon: <FaCoffee />, text: "Coffee Maker" }
-      ],
-      amenities: ["Work desk", "Hairdryer", "Safe", "Iron", "Daily housekeeping"],
-      size: "25 m²",
-      view: "City View"
-    },
-    {
-      id: 2,
-      name: "Deluxe Room",
-      description: "Experience luxury in our 35m² deluxe rooms featuring premium amenities and breathtaking views. Ideal for those seeking extra comfort.",
-      price: "$220/night",
-      images: [DeluxeRoom, DeluxeRoom2, DeluxeRoom3],
-      features: [
-        { icon: <FaWifi />, text: "Free Premium WiFi" },
-        { icon: <FaWineGlassAlt />, text: "Minibar" },
-        { icon: <FaBath />, text: "Premium Bath Amenities" },
-        { icon: <FaConciergeBell />, text: "24/7 Room Service" }
-      ],
-      amenities: ["King Size Bed", "Bathrobe", "Slippers", "Nespresso Machine", "Evening turndown service"],
-      size: "35 m²",
-      view: "Partial Sea View"
-    },
-    {
-      id: 3,
-      name: "Executive Suite",
-      description: "Our 50m² suites offer separate living areas and VIP services. The ultimate choice for discerning travelers seeking space and luxury.",
-      price: "$350/night",
-      images: [Suite, Suite2, Suite3],
-      features: [
-        { icon: <FaStar />, text: "VIP Check-in" },
-        { icon: <FaConciergeBell />, text: "Personal Concierge" },
-        { icon: <FaBath />, text: "Jacuzzi Bath" },
-        { icon: <FaWineGlassAlt />, text: "Welcome Champagne" }
-      ],
-      amenities: ["Separate Living Room", "Dining Area", "Premium Toiletries", "Express Laundry", "Private Check-out"],
-      size: "50 m²",
-      view: "Panoramic Sea View"
-    }
-  ];
+  {
+    id: 1,
+    name: "Standard Room",
+    description: "Our standard rooms offer comfort and functionality with 25m² of carefully designed space. Perfect for business travelers.",
+    price: "$120/night",
+    capacity: 1, // Explicit capacity
+    images: [standardroom, standardroom1, standardroom2],
+    features: [
+      { icon: <FaWifi />, text: "Free High-Speed WiFi" },
+      { icon: <FaSnowflake />, text: "Air Conditioning" },
+      { icon: <FaTv />, text: "40\" Smart TV" },
+      { icon: <FaCoffee />, text: "Coffee Maker" }
+    ],
+    amenities: ["Work desk", "Hairdryer", "Safe", "Iron", "Daily housekeeping"],
+    size: "25 m²",
+    view: "City View"
+  },
+  {
+    id: 2,
+    name: "Deluxe Room",
+    description: "Experience luxury in our 35m² deluxe rooms featuring premium amenities and breathtaking views. Ideal for couples.",
+    price: "$220/night",
+    capacity: 2, // Explicit capacity
+    images: [DeluxeRoom, DeluxeRoom2, DeluxeRoom3],
+    features: [
+      { icon: <FaWifi />, text: "Free Premium WiFi" },
+      { icon: <FaWineGlassAlt />, text: "Minibar" },
+      { icon: <FaBath />, text: "Premium Bath Amenities" },
+      { icon: <FaConciergeBell />, text: "24/7 Room Service" }
+    ],
+    amenities: ["King Size Bed", "Bathrobe", "Slippers", "Nespresso Machine", "Evening turndown service"],
+    size: "35 m²",
+    view: "Partial Sea View"
+  },
+  {
+    id: 3,
+    name: "Executive Suite",
+    description: "Our 50m² suites offer separate living areas and VIP services. Perfect for families or groups.",
+    price: "$350/night",
+    capacity: 4, // Explicit capacity
+    images: [Suite, Suite2, Suite3],
+    features: [
+      { icon: <FaStar />, text: "VIP Check-in" },
+      { icon: <FaConciergeBell />, text: "Personal Concierge" },
+      { icon: <FaBath />, text: "Jacuzzi Bath" },
+      { icon: <FaWineGlassAlt />, text: "Welcome Champagne" }
+    ],
+    amenities: ["Separate Living Room", "Dining Area", "Premium Toiletries", "Express Laundry", "Private Check-out"],
+    size: "50 m²",
+    view: "Panoramic Sea View"
+  }
+];
 
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
