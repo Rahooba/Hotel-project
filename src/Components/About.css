@@ -47,11 +47,17 @@
   color: #2c3e50;
   margin-bottom: 1.5rem;
 }
-
+body.dark-mode .about-text h2 {
+  color: #fefefe;
+}
 .about-text p {
   color: #7f8c8d;
   margin-bottom: 1.5rem;
   line-height: 1.6;
+}
+body.dark-mode .about-text p {
+  color: #cbc9c9;
+
 }
 
 .stats-container {
@@ -80,11 +86,19 @@
   padding: 4rem 2rem;
   text-align: center;
 }
+body.dark-mode .team-section {
+  color: #cbc9c9;
+  background-color: #111112;
 
+}
 .team-section h2 {
   font-size: 2rem;
   color: #2c3e50;
   margin-bottom: 3rem;
+}
+body.dark-mode .team-section h2{
+  color: #cbc9c9;
+
 }
 
 .team-members {
@@ -102,6 +116,11 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
 }
+body.dark-mode .team-member {
+  color: #cbc9c9;
+  background-color: #262627;
+
+}
 
 .team-member img {
   width: 150px;
@@ -115,6 +134,11 @@
 .team-member h3 {
   color: #2c3e50;
   margin-bottom: 0.5rem;
+}
+body.dark-mode .team-member h3 {
+  color: #cbc9c9;
+  background-color: #262627;
+
 }
 
 .team-member p {

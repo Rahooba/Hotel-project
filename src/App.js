@@ -6,10 +6,12 @@ import Services from './Components/Services';
 import About from './Components/About';
 import Contact from './Components/Contact';
 import BookingPage from './Components/BookingPage';
+import { DarkModeProvider } from './context/DarkModeContext';
 
 function App() {
   return (
     <>
+    <DarkModeProvider>
     <Navbar/>
     <Routes>
       <Route path="/" element={  <Home/>}/>
@@ -20,7 +22,7 @@ function App() {
       <Route path="/booking" element={  <BookingPage/>}/>
     </Routes>
     
-  
+  </DarkModeProvider>
     </>
   );
 }

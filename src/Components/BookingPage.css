@@ -4,6 +4,10 @@
   min-height: 100vh;
   background-color: #f9f9f9;
 }
+body.dark-mode .booking-page {
+  color: #cbc9c9;
+  background-color: #090909;
+}
 
 .loading-screen {
   display: flex;
@@ -39,18 +43,28 @@
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
+body.dark-mode .booking-container {
+  color: #cbc9c9;
+  background-color: #090909;
+}
 
 .room-info {
   padding: 2rem;
   background: white;
 }
-
+body.dark-mode .room-info {
+  color: #cbc9c9;
+  background-color: #212020;
+}
 
 .room-info h2 {
   margin-bottom: 1.5rem;
   color: #2c3e50;
   font-size: 2rem;
   text-align: center;
+}
+body.dark-mode .room-info h2 {
+  color: #cbc9c9;
 }
 
 .room-image-container {
@@ -76,6 +90,9 @@
   color: #2c3e50;
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
+}
+body.dark-mode .room-details h3  {
+  color: #cbc9c9;
 }
 .room-highlights {
   position: absolute;
@@ -118,6 +135,9 @@
   margin-bottom: 1rem;
   font-size: 1.2rem;
 }
+body.dark-mode .amenities h4  {
+  color: #b6b4b4;
+}
 
 .amenities ul {
   list-style-type: none;
@@ -131,6 +151,9 @@
   color: #555;
   position: relative;
   padding-left: 1.5rem;
+}
+body.dark-mode .amenities li {
+  color: #b6b4b4;
 }
 .amenities li::before {
   content: "•";
@@ -147,12 +170,20 @@
   flex-direction: column;
   background: #f9f9f9;
 }
+body.dark-mode .booking-form {
+  color: #cbc9c9;
+  background-color: #212020;
+}
 .booking-form h3 {
   margin-bottom: 1.5rem;
   color: #2c3e50;
   font-size: 1.5rem;
   position: relative;
   padding-bottom: 0.5rem;
+}
+body.dark-mode .booking-form h3{
+  color: #cbc9c9;
+
 }
 
 .booking-form h3::after {

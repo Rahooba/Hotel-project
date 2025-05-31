@@ -204,12 +204,7 @@ const Contact = () => {
         </motion.div>
       </div>
 
-      <motion.div 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="map-container"
-      />
+      
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import DarkModeToggle from './DarkModeToggle';
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -25,7 +26,8 @@ function Navbar() {
     { path: "/rooms", name: "Rooms" },
     { path: "/services", name: "Services" },
     { path: "/about", name: "About" },
-    { path: "/contact", name: "Contact" }
+    { path: "/contact", name: "Contact" },
+    
   ];
 
   const logoVariants = {
@@ -79,6 +81,7 @@ function Navbar() {
         animate="visible"
       >
         <Link to="/">Luxury Hotel</Link>
+        
       </motion.div>
 
       <div 
@@ -113,6 +116,16 @@ function Navbar() {
           animate="visible"
         >
         
+        </motion.li>
+         <motion.li
+          variants={buttonVariants}
+          initial="hidden"
+          animate="visible"
+          whileHover="hover"
+          whileTap="tap"
+          style={{ display: 'flex', alignItems: 'center' }}
+        >
+          <DarkModeToggle />
         </motion.li>
       </ul>
     </motion.nav>
