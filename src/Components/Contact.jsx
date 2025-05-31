@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import './Contact.css';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock } from 'react-icons/fa';
-
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +11,7 @@ const Contact = () => {
     phone: '',
     message: ''
   });
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,8 +23,7 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Form submission logic here
-    alert('Thank you for your message! We will contact you soon.');
+    setShowConfirmation(true);
     setFormData({
       name: '',
       email: '',
@@ -33,8 +32,43 @@ const Contact = () => {
     });
   };
 
+  const closeConfirmation = () => {
+    setShowConfirmation(false);
+  };
+
   return (
     <div className="contact-page">
+      <AnimatePresence>
+        {showConfirmation && (
+          <motion.div
+            className="confirmation-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="confirmation-popup"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+            >
+              <div className="confirmation-icon">✓</div>
+              <h3>Message Sent!</h3>
+              <p>Thank you for contacting us. We've received your message and will get back to you soon.</p>
+              <motion.button
+                className="close-btn"
+                onClick={closeConfirmation}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Close
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -100,9 +134,9 @@ const Contact = () => {
             <h3>Follow Us</h3>
             <div className="social-icons">
               <Link to="#"><i className="fab fa-facebook-f"></i></Link>
-              <Link To ="#"><i className="fab fa-twitter"></i></Link>
-              <Link To ="#"><i className="fab fa-instagram"></i></Link>
-              <Link To ="#"><i className="fab fa-linkedin-in"></i></Link>
+              <Link to="#"><i className="fab fa-twitter"></i></Link>
+              <Link to="#"><i className="fab fa-instagram"></i></Link>
+              <Link to="#"><i className="fab fa-linkedin-in"></i></Link>
             </div>
           </div>
         </motion.div>
@@ -158,7 +192,14 @@ const Contact = () => {
                 required
               ></textarea>
             </div>
-            <button type="submit" className="submit-btn">Send Message</button>
+            <motion.button 
+              type="submit" 
+              className="submit-btn"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Send Message
+            </motion.button>
           </form>
         </motion.div>
       </div>
@@ -168,9 +209,7 @@ const Contact = () => {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
         className="map-container"
-      >
-      
-      </motion.div>
+      />
     </div>
   );
 };

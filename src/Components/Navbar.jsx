@@ -112,14 +112,7 @@ function Navbar() {
           initial="hidden"
           animate="visible"
         >
-          <motion.button 
-            className="booking-btn"
-            variants={buttonVariants}
-            whileHover="hover"
-            whileTap="tap"
-          >
-            Book Now
-          </motion.button>
+        
         </motion.li>
       </ul>
     </motion.nav>

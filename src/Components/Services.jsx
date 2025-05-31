@@ -81,7 +81,7 @@ const Services = () => {
         className="service-cta"
       >
         <h2>Ready to Experience Luxury?</h2>
-        <button className="cta-button">Book Your Stay</button>
+        
       </motion.div>
     </div>
   );
