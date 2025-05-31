@@ -266,7 +266,7 @@ const navigate = useNavigate();
                         <img src={room.img} alt={room.title} />
                         <div className="room-price">{room.price}</div>
                       </div>
-                      <div className="room-info">
+                      <div className="room-inffo">
                         <h3>{room.title}</h3>
                         <p>{room.desc}</p>
                         <p className="room-capacity">Capacity: {room.capacity} guest{room.capacity !== 1 ? "s" : ""}</p>

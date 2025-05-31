@@ -193,14 +193,14 @@
 
 .room-image-container {
   position: relative;
-  height: 200px;
+  height: 300px;
   overflow: hidden;
 }
 
 .room-image-container img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover no-repeat;
 }
 
 .room-price {
