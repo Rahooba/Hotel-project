@@ -153,89 +153,61 @@ const navigate = useNavigate();
         </motion.div>
       </motion.header>
 
-      {/* Booking Search Section */}
-      <motion.section 
-        className="booking-search"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true, margin: "-100px" }}
+  {/* Booking Search Section */}
+<motion.section 
+  className="booking-search"
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  transition={{ duration: 0.8 }}
+  viewport={{ once: true, margin: "-100px" }}
+>
+  <div className="search-container">
+    <motion.h2
+      initial={{ y: -20, opacity: 0 }}
+      whileInView={{ y: 0, opacity: 1 }}
+      transition={{ delay: 0.2 }}
+      viewport={{ once: true }}
+    >
+      Check Room Availability
+    </motion.h2>
+    <motion.form 
+      className="search-form"
+      onSubmit={handleSearch}
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+    >
+      <motion.div 
+        key="guests"
+        className="form-group"
+        variants={itemVariants}
       >
-        <div className="search-container">
-          <motion.h2
-            initial={{ y: -20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            Check Room Availability
-          </motion.h2>
-          <motion.form 
-            className="search-form"
-            onSubmit={handleSearch}
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <motion.div 
-              key="checkin"
-              className="form-group"
-              variants={itemVariants}
-            >
-              <label>Check-in Date</label>
-              <input 
-                type="date" 
-                name="checkIn"
-                value={searchParams.checkIn}
-                onChange={handleInputChange}
-                required 
-              />
-            </motion.div>
-            <motion.div 
-              key="checkout"
-              className="form-group"
-              variants={itemVariants}
-            >
-              <label>Check-out Date</label>
-              <input 
-                type="date" 
-                name="checkOut"
-                value={searchParams.checkOut}
-                onChange={handleInputChange}
-                required 
-              />
-            </motion.div>
-            <motion.div 
-              key="guests"
-              className="form-group"
-              variants={itemVariants}
-            >
-              <label>Guests</label>
-              <select
-                name="guests"
-                value={searchParams.guests}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4+</option>
-              </select>
-            </motion.div>
-            <motion.button 
-              type="submit" 
-              className="search-btn"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              variants={itemVariants}
-            >
-              Search
-            </motion.button>
-          </motion.form>
-        </div>
-      </motion.section>
+        <label>Guests</label>
+        <select
+          name="guests"
+          value={searchParams.guests}
+          onChange={handleInputChange}
+          required
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4+</option>
+        </select>
+      </motion.div>
+      <motion.button 
+        type="submit" 
+        className="search-btn"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        variants={itemVariants}
+      >
+        Search
+      </motion.button>
+    </motion.form>
+  </div>
+</motion.section>
 
       {/* Search Results Section */}
       <AnimatePresence>
