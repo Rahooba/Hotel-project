@@ -175,7 +175,7 @@
   padding: 0 2rem;
 }
 
-.room-cardd {
+.room-carddd {
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
@@ -186,7 +186,7 @@
   height: 100%;
 }
 
-.room-cardd:hover {
+.room-carddd:hover {
   transform: translateY(-10px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
@@ -214,19 +214,19 @@
   font-weight: bold;
 }
 
-.room-info {
+.room-infoo {
   padding: 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.room-info h3 {
+.room-infoo h3 {
   margin-bottom: 0.5rem;
   color: #2c3e50;
 }
 
-.room-info p {
+.room-infoo p {
   color: #7f8c8d;
   margin-bottom: 1rem;
   line-height: 1.5;

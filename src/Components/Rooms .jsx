@@ -125,10 +125,10 @@ const Rooms = () => {
               />
               <div className="room-badge">{room.price}</div>
             </div>
-            <div className="room-info">
+            <div className="roomm-info">
               <h3>{room.name}</h3>
               <p>{room.description}</p>
-              <div className="room-highlights">
+              <div className="rooms-highlights">
                 {room.features.map((feature, i) => (
                   <div key={i} className="highlight">
                     <span className="icon">{feature.icon}</span>

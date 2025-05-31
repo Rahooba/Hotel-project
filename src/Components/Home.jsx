@@ -4,7 +4,7 @@ import './Home.css';
 import standardroom from "../Images/standardroom.webp";
 import DeluxeRoom from "../Images/Deluxe Room.jpeg";
 import Suite from "../Images/Suite.webp";
-import { FaUtensils, FaSpa, FaSwimmingPool, FaDumbbell } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -18,7 +18,7 @@ const Home = () => {
       }
     }
   };
-
+const navigate = useNavigate();
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
@@ -270,13 +270,14 @@ const Home = () => {
                         <h3>{room.title}</h3>
                         <p>{room.desc}</p>
                         <p className="room-capacity">Capacity: {room.capacity} guest{room.capacity !== 1 ? "s" : ""}</p>
-                        <motion.button 
-                          className="room-btn"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          Book Now
-                        </motion.button>
+                      <motion.button 
+  className="room-btn"
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  onClick={() => navigate('/booking', { state: { room } })}
+>
+  Book Now
+</motion.button>
                       </div>
                     </motion.div>
                   ))}
@@ -320,7 +321,7 @@ const Home = () => {
               {roomTypes.map((room, index) => (
                 <motion.div
                   key={index}
-                  className="room-cardd"
+                  className="room-carddd"
                   initial={{ y: 50, opacity: 0 }}
                   whileInView={{ y: 0, opacity: 1 }}
                   transition={{ delay: index * 0.2 }}
@@ -332,16 +333,17 @@ const Home = () => {
                     <img src={room.img} alt={room.title} />
                     <div className="room-price">{room.price}</div>
                   </div>
-                  <div className="room-info">
+                  <div className="room-infoo">
                     <h3>{room.title}</h3>
                     <p>{room.desc}</p>
-                    <motion.button 
-                      className="room-btn"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Book Now
-                    </motion.button>
+                  <motion.button 
+  className="room-btn"
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  onClick={() => navigate('/booking', { state: { room } })}
+>
+  Book Now
+</motion.button>
                   </div>
                 </motion.div>
               ))}
