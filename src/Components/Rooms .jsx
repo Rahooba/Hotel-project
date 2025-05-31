@@ -11,9 +11,24 @@ import DeluxeRoom3 from "../Images/DeluxeRoom3.webp";
 import Suite from "../Images/Suite.webp";
 import Suite2 from "../Images/Suite3.webp";
 import Suite3 from "../Images/Suite2.webp";
-
+import { useNavigate } from 'react-router-dom'; // Add this import
 
 const Rooms = () => {
+  const navigate = useNavigate();
+ const handleBookNow = (room) => {
+    // Transform room data to match what BookingPage expects
+    const bookingRoom = {
+      title: room.name,
+      img: room.images[0],
+      price: room.price,
+      capacity: parseInt(room.size.match(/\d+/)[0]), // Extract number from size
+      desc: room.description,
+      type: room.name.toLowerCase().includes('suite') ? 'suite' : 
+            room.name.toLowerCase().includes('deluxe') ? 'deluxe' : 'standard'
+    };
+    
+    navigate('/booking', { state: { room: bookingRoom } });
+  };
   const rooms = [
     {
       id: 1,
@@ -207,11 +222,11 @@ const Rooms = () => {
                 
                 <div className="room-specs">
                   <div>
-                    <span>Size</span>
+                    <span>SIZE</span>
                     <strong>{selectedRoom.size}</strong>
                   </div>
                   <div>
-                    <span>View</span>
+                    <span>VIEW</span>
                     <strong>{selectedRoom.view}</strong>
                   </div>
                 </div>
@@ -236,9 +251,13 @@ const Rooms = () => {
                     ))}
                   </ul>
                 </div>
-
-                <button className="book-now-btn">Book Now</button>
-              </div>
+ <button 
+    className="book-now-btn"
+    onClick={() => handleBookNow(selectedRoom)}
+  >
+    Book Now
+  </button>       
+     </div>
             </motion.div>
           </motion.div>
         )}

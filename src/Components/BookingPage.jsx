@@ -62,17 +62,30 @@ const BookingPage = () => {
     specialRequests: ''
   });
 
-  useEffect(() => {
-    if (location.state?.room) {
-      setRoom(location.state.room);
-      setFormData(prev => ({
-        ...prev,
-        guests: location.state.room.capacity.toString()
-      }));
-    } else {
-      navigate('/');
-    }
-  }, [location, navigate]);
+// In your BookingPage component, update the useEffect:
+useEffect(() => {
+  if (location.state?.room) {
+    // Handle both room data structures (from Home and Rooms pages)
+    const roomData = location.state.room;
+    setRoom({
+      title: roomData.title || roomData.name,
+      img: roomData.img || roomData.images[0],
+      price: roomData.price,
+      capacity: roomData.capacity || parseInt(roomData.size.match(/\d+/)[0]),
+      desc: roomData.desc || roomData.description,
+      type: roomData.type || 
+           (roomData.name?.toLowerCase().includes('suite') ? 'suite' : 
+            roomData.name?.toLowerCase().includes('deluxe') ? 'deluxe' : 'standard')
+    });
+    
+    setFormData(prev => ({
+      ...prev,
+      guests: (roomData.capacity || parseInt(roomData.size.match(/\d+/)[0])).toString()
+    }));
+  } else {
+    navigate('/');
+  }
+}, [location, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
