@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './Contact.css';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock } from 'react-icons/fa';
+
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -97,10 +99,10 @@ const Contact = () => {
           <div className="social-media">
             <h3>Follow Us</h3>
             <div className="social-icons">
-              <a href="#"><i className="fab fa-facebook-f"></i></a>
-              <a href="#"><i className="fab fa-twitter"></i></a>
-              <a href="#"><i className="fab fa-instagram"></i></a>
-              <a href="#"><i className="fab fa-linkedin-in"></i></a>
+              <Link to="#"><i className="fab fa-facebook-f"></i></Link>
+              <Link To ="#"><i className="fab fa-twitter"></i></Link>
+              <Link To ="#"><i className="fab fa-instagram"></i></Link>
+              <Link To ="#"><i className="fab fa-linkedin-in"></i></Link>
             </div>
           </div>
         </motion.div>

@@ -350,69 +350,103 @@ const Home = () => {
         )}
       </AnimatePresence>
 
-      {/* Services Section */}
-      <motion.section 
-        className="services-section"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
+    
+
+{/* Testimonials Section */}
+<motion.section 
+  className="testimonials-section"
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  transition={{ duration: 0.8 }}
+  viewport={{ once: true }}
+>
+  <motion.h2
+    initial={{ y: -20, opacity: 0 }}
+    whileInView={{ y: 0, opacity: 1 }}
+    transition={{ delay: 0.2 }}
+    viewport={{ once: true }}
+  >
+    What Our Guests Say
+  </motion.h2>
+  <motion.div 
+    className="testimonials-grid"
+    variants={containerVariants}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+  >
+    {[
+      { 
+        name: "Mary John",
+        rating: 5,
+        comment: "The most comfortable bed I've ever slept in! The staff went above and beyond to make our anniversary special.",
+        stay: "Stayed in Deluxe Room, May 2023",
+        avatar: "👩"
+      },
+      { 
+        name: "Michael Chen",
+        rating: 5,
+        comment: "Exceptional service from check-in to check-out. The rooftop pool has an amazing city view at sunset.",
+        stay: "Stayed in Suite, March 2023",
+        avatar: "👨"
+      },
+      { 
+        name: "Emma Rodriguez",
+        rating: 4,
+        comment: "Beautiful property with attention to every detail. The breakfast buffet was outstanding!",
+        stay: "Stayed in Standard Room, April 2023",
+        avatar: "👩"
+      },
+      { 
+        name: "David Wilson",
+        rating: 5,
+        comment: "Perfect location for business travelers. The executive lounge was a great place to work and relax.",
+        stay: "Stayed in Executive Room, February 2023",
+        avatar: "👨"
+      },
+      { 
+        name: "Olivia Martinez",
+        rating: 5,
+        comment: "The spa treatments were heavenly! We loved the couples massage package. Will definitely return for our next getaway.",
+        stay: "Stayed in Deluxe Room, January 2024",
+        avatar: "👩"
+      },
+      { 
+        name: "James Thompson",
+        rating: 5,
+        comment: "Impeccable cleanliness and the concierge gave us fantastic restaurant recommendations. Made our vacation perfect!",
+        stay: "Stayed in Suite, December 2023",
+        avatar: "👨"
+      }
+    ].map((testimonial, index) => (
+      <motion.div
+        key={index}
+        className="testimonial-card"
+        variants={itemVariants}
+        whileHover={{ 
+          y: -5,
+          boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)"
+        }}
       >
-        <motion.h2
-          initial={{ y: -20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          viewport={{ once: true }}
-        >
-          Our Services
-        </motion.h2>
-        <motion.div 
-          className="services-grid"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {[
-            { 
-              icon: <FaUtensils size={40} />, 
-              title: "Fine Dining", 
-              desc: "Wide selection of international and local cuisine" 
-            },
-            { 
-              icon: <FaSpa size={40} />, 
-              title: "Spa & Massage", 
-              desc: "Relaxation and beauty treatments to highest standards" 
-            },
-            { 
-              icon: <FaSwimmingPool size={40} />, 
-              title: "Swimming Pool", 
-              desc: "Indoor and outdoor pools with relaxation area" 
-            },
-            { 
-              icon: <FaDumbbell size={40} />, 
-              title: "Fitness Center", 
-              desc: "Modern equipment with professional trainers" 
-            }
-          ].map((service, index) => (
-            <motion.div
-              key={index}
-              className="service-card"
-              variants={itemVariants}
-              whileHover={{ 
-                y: -10,
-                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)"
-              }}
-            >
-              <div className="service-icon">
-                {service.icon}
-              </div>
-              <h3>{service.title}</h3>
-              <p>{service.desc}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.section>
+        <div className="testimonial-header">
+          <span className="testimonial-avatar">{testimonial.avatar}</span>
+          <div>
+            <h4>{testimonial.name}</h4>
+            <div className="testimonial-rating">
+              {[...Array(5)].map((_, i) => (
+                <span key={i} className={i < testimonial.rating ? "star filled" : "star"}>★</span>
+              ))}
+            </div>
+          </div>
+        </div>
+        <p className="testimonial-comment">"{testimonial.comment}"</p>
+        <p className="testimonial-stay">{testimonial.stay}</p>
+      </motion.div>
+    ))}
+  </motion.div>
+</motion.section>
+
+
 
       {/* Footer */}
       <motion.footer 
